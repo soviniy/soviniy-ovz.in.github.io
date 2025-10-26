@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owl Vzlom Squad</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            opacity: 0;
+            animation: bodyFadeIn 1.5s ease-out 0.5s forwards;
+        }
+
+        @keyframes bodyFadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Улучшенный Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+        }
+
+        .loader-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 3px solid transparent;
+            border-top: 3px solid #00ff88;
+            border-right: 3px solid #0088ff;
+            border-bottom: 3px solid #ff6b6b;
+            border-left: 3px solid #ffd700;
+            border-radius: 50%;
+            animation: enhancedSpin 2s linear infinite, colorShift 3s ease-in-out infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .loader-inner {
+            width: 60px;
+            height: 60px;
+            border: 2px solid transparent;
+            border-top: 2px solid #00ff88;
+            border-radius: 50%;
+            animation: enhancedSpin 1.5s linear infinite reverse;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .loading-text {
+            margin-top: 30px;
+            font-size: 1.2rem;
+            background: linear-gradient(45deg, #00ff88, #0088ff, #ff6b6b, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 300% 300%;
+            animation: gradientShift 2s ease infinite;
+        }
+
+        @keyframes enhancedSpin {
+            0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+            50% { transform: translate(-50%, -50%) rotate(180deg) scale(1.1); }
+            100% { transform: translate(-50%, -50%) rotate(360deg) scale(1); }
+        }
+
+        @keyframes colorShift {
+            0%, 100% { 
+                border-top-color: #00ff88;
+                border-right-color: #0088ff;
+                border-bottom-color: #ff6b6b;
+                border-left-color: #ffd700;
+            }
+            25% { 
+                border-top-color: #ffd700;
+                border-right-color: #00ff88;
+                border-bottom-color: #0088ff;
+                border-left-color: #ff6b6b;
+            }
+            50% { 
+                border-top-color: #ff6b6b;
+                border-right-color: #ffd700;
+                border-bottom-color: #00ff88;
+                border-left-color: #0088ff;
+            }
+            75% { 
+                border-top-color: #0088ff;
+                border-right-color: #ff6b6b;
+                border-bottom-color: #ffd700;
+                border-left-color: #00ff88;
+            }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Enhanced Header */
+        .header {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            padding: 3rem 0;
+            text-align: center;
+            border-bottom: 2px solid transparent;
+            background: linear-gradient(135deg, 
+                rgba(0, 0, 0, 0.9) 0%, 
+                rgba(26, 26, 46, 0.8) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(0, 255, 136, 0.1), 
+                transparent);
+            animation: headerShine 6s ease-in-out infinite;
+        }
+
+        @keyframes headerShine {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            animation: logoFloat 4s ease-in-out infinite, logoGlow 3s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.5));
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        @keyframes logoGlow {
+            from { filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(0, 255, 136, 0.8)); }
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #00ff88, #0088ff, #ff6b6b, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 300% 300%;
+            animation: gradientShift 3s ease infinite;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            animation: textPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes textPulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+
+        /* Enhanced Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .social-btn {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .social-btn:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.3), rgba(0, 136, 255, 0.2));
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.3);
+            border-color: #00ff88;
+        }
+
+        .social-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Enhanced Sections */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.05) 0%, 
+                rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px) scale(0.95);
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00ff88, #0088ff, #ff6b6b, #ffd700);
+            background-size: 300% 300%;
+            animation: gradientShift 3s ease infinite;
+            transform: scaleX(0);
+            transition: transform 0.6s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .section.visible::before {
+            transform: scaleX(1);
+        }
+
+        .section:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.15);
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+
+        .section h2 {
+            color: #00ff88;
+            margin-bottom: 2rem;
+            font-size: 2.2rem;
+            background: linear-gradient(45deg, #00ff88, #0088ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #00ff88, transparent);
+            transform: scaleX(0);
+            transition: transform 0.6s ease;
+        }
+
+        .section.visible h2::after {
+            transform: scaleX(1);
+        }
+
+        /* Enhanced Grid layouts */
+        .guides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .guide-card {
+            background: linear-gradient(135deg, 
+                rgba(0, 255, 136, 0.1) 0%, 
+                rgba(0, 255, 136, 0.05) 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+        }
+
+        .guide-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .guide-card.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .guide-card:hover {
+            background: linear-gradient(135deg, 
+                rgba(0, 255, 136, 0.2) 0%, 
+                rgba(0, 255, 136, 0.1) 100%);
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 255, 136, 0.2);
+            border-color: #00ff88;
+        }
+
+        .guide-card:hover::before {
+            left: 100%;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .member-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.05) 0%, 
+                rgba(255, 255, 255, 0.02) 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .member-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .member-card:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 136, 255, 0.2);
+            border-color: #0088ff;
+            background: linear-gradient(135deg, 
+                rgba(0, 136, 255, 0.1) 0%, 
+                rgba(0, 136, 255, 0.05) 100%);
+        }
+
+        .member-role {
+            color: #0088ff;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .member-role::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: #0088ff;
+            transition: width 0.4s ease;
+        }
+
+        .member-card:hover .member-role::after {
+            width: 100%;
+        }
+
+        /* Enhanced Donate section */
+        .donate-options {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .donate-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 215, 0, 0.1) 0%, 
+                rgba(255, 215, 0, 0.05) 100%);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 280px;
+            backdrop-filter: blur(10px);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .donate-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .donate-card:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.2);
+            border-color: #ffd700;
+        }
+
+        .donate-btn {
+            background: linear-gradient(45deg, #ffd700, #ffaa00);
+            color: #000;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .donate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .donate-btn:hover {
+            transform: scale(1.1);
+            background: linear-gradient(45deg, #ffaa00, #ffd700);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .donate-btn:hover::before {
+            left: 100%;
+        }
+
+        .donation-alerts-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e, #ff6b6b);
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.2rem;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+            position: relative;
+            overflow: hidden;
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        .donation-alerts-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .donation-alerts-btn:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.5);
+        }
+
+        .donation-alerts-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Enhanced Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            border-radius: 15px;
+            overflow: hidden;
+            height: 220px;
+            background: #333;
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+        }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(0, 255, 136, 0.1) 0%, 
+                transparent 50%, 
+                rgba(0, 136, 255, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .gallery-item.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.08) rotate(2deg);
+            border-color: #00ff88;
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.3);
+            z-index: 10;
+        }
+
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+
+        /* Enhanced Footer */
+        .footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+            color: #666;
+            background: linear-gradient(135deg, 
+                rgba(0, 0, 0, 0.8) 0%, 
+                rgba(26, 26, 46, 0.6) 100%);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00ff88, #0088ff, #ff6b6b, #ffd700);
+            background-size: 300% 300%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        /* Простой музыкальный плеер */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px;
+            border-radius: 50%;
+            border: 2px solid #00ff88;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .music-player:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.8);
+        }
+
+        .music-btn {
+            background: none;
+            border: none;
+            color: #00ff88;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section {
+                padding: 2rem;
+                margin: 2rem 0;
+            }
+            
+            .guides-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+            
+            .gallery-item {
+                height: 180px;
+            }
+            
+            .donate-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .donate-card {
+                min-width: 100%;
+            }
+
+            .music-player {
+                bottom: 15px;
+                right: 15px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Enhanced Preloader -->
+    <div id="preloader">
+        <div class="loader-container">
+            <div class="loader"></div>
+            <div class="loader-inner"></div>
+        </div>
+        <div class="loading-text">OWL VZLOM</div>
+    </div>
+
+    <!-- Простой музыкальный плеер -->
+    <div class="music-player">
+        <button class="music-btn" id="musicToggle">🔇</button>
+    </div>
+
+    <!-- Локальный аудио файл -->
+    <audio id="backgroundMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+        Ваш браузер не поддерживает аудио элемент.
+    </audio>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">🦉</div>
+        <h1>Owl Vzlom</h1>
+        <p>Комьюнити по бруту камер и серому хакингу</p>
+        
+        <div class="social-links">
+            <a href="https://www.youtube.com/@OwlVzlom" class="social-btn" target="_blank">YouTube</a>
+            <a href="https://t.me/+pLUUiA24pq44NTlh" class="social-btn" target="_blank">Telegram</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Guides Section -->
+        <section class="section fade-in">
+            <h2>📚 Гайды и материалы</h2>
+            <div class="guides-grid">
+                <a href="https://www.mediafire.com/file/6mg33or8r3mc04t/Инструкция+по+бруту+IP+камер.pdf/file" class="guide-card" target="_blank">
+                    <h3>Гайд по бруту камер и поиску их айпиадресов</h3>
+                    <p>Полная информация как находить айпи адреса для брута камер видео наблюдения</p>
+                    <small>Скачать с MediaFire</small>
+                </a>
+                <a href="https://www.mediafire.com/file/mj8j2nb52lbnv5t/Pack-zvukov.zip/file" class="guide-card" target="_blank">
+                    <h3>Звуки для троллинга камер и всякие программы.</h3>
+                    <p>Тут вы найдёте звуки, чистые программы по типу кряка саунпада и многово другого.</p>
+                    <small>Скачать с MediaFire</small>
+                </a>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="section fade-in">
+            <h2>👥 Наша команда</h2>
+            <div class="team-grid">
+                <div class="member-card">
+                    <div class="member-role">Основатель</div>
+                    <div class="member-name">S0vanutiy</div>
+                </div>
+                <div class="member-card">
+                    <div class="member-role">Администраторы</div>
+                    <div class="member-name">Raz_piz_dyay</div>
+                </div>
+                <div class="member-card">
+                    <div class="member-role">Модераторы</div>
+                    <div class="member-name">Идёт набор</div>
+                </div>
+                <div class="member-card">
+                    <div class="member-role">Разработчики</div>
+                    <div class="member-name">S0vanutiy, OlegDev, WhoIsNobody?</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="section fade-in">
+            <h2>🖼️ Галерея</h2>
+            <p>Наш проект:</p>
+            <div class="gallery">
+                <div class="gallery-item" style="background-image: url('https://i.ibb.co/W49SwyRP/image.png')"></div>
+                <div class="gallery-item" style="background-image: url('https://i.ibb.co/tphxmsPW/image.png')"></div>
+                <div class="gallery-item" style="background-image: url('https://i.ibb.co/QF9XKxyv/image.png')"></div>
+                <div class="gallery-item" style="background-image: url('https://i.ibb.co/mr5gnf6g/image.png')"></div>
+            </div>
+        </section>
+
+        <!-- Donate Section -->
+        <section class="section fade-in">
+            <h2>💎 Поддержать проект</h2>
+            <p>Если вам нравится наш проект, вы можете поддержать нас донатом:</p>
+            
+            <!-- Donation Alerts Button -->
+            <div style="text-align: center; margin: 2rem 0;">
+                <a href="https://dalink.to/owl_vzlom" class="donation-alerts-btn" target="_blank">
+                    💰 Поддержать через Donation Alerts
+                </a>
+            </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://www.youtube.com/@OwlVzlom" class="social-btn" target="_blank">📺 YouTube</a>
+            <a href="https://t.me/+pLUUiA24pq44NTlh" class="social-btn" target="_blank">📱 Telegram</a>
+        </div>
+        <p style="margin-top: 2rem; font-size: 1.1rem;">Owl Vzlom Squad © 2025. Все права защищены.</p>
+    </footer>
+
+    <script>
+        // Enhanced Preloader with better timing
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const preloader = document.getElementById('preloader');
+                preloader.style.opacity = '0';
+                preloader.style.transition = 'opacity 1s ease, visibility 1s ease';
+                
+                setTimeout(() => {
+                    preloader.style.visibility = 'hidden';
+                    
+                    // Enhanced animations for elements
+                    const sections = document.querySelectorAll('.section');
+                    const guides = document.querySelectorAll('.guide-card');
+                    const members = document.querySelectorAll('.member-card');
+                    const donateCards = document.querySelectorAll('.donate-card');
+                    const galleryItems = document.querySelectorAll('.gallery-item');
+                    
+                    // Animate sections
+                    sections.forEach((section, index) => {
+                        setTimeout(() => {
+                            section.classList.add('visible');
+                        }, 200 * index);
+                    });
+                    
+                    // Animate guide cards with delay
+                    guides.forEach((card, index) => {
+                        setTimeout(() => {
+                            card.classList.add('visible');
+                        }, 400 + (100 * index));
+                    });
+                    
+                    // Animate member cards
+                    members.forEach((card, index) => {
+                        setTimeout(() => {
+                            card.classList.add('visible');
+                        }, 600 + (80 * index));
+                    });
+                    
+                    // Animate donate cards
+                    donateCards.forEach((card, index) => {
+                        setTimeout(() => {
+                            card.classList.add('visible');
+                        }, 800 + (100 * index));
+                    });
+                    
+                    // Animate gallery items
+                    galleryItems.forEach((item, index) => {
+                        setTimeout(() => {
+                            item.classList.add('visible');
+                        }, 1000 + (120 * index));
+                    });
+                    
+                }, 1000);
+            }, 2000); // Increased preloader time for better effect
+        });
+
+        // Music Controls
+        const music = document.getElementById('backgroundMusic');
+        const musicToggle = document.getElementById('musicToggle');
+
+        let isPlaying = false;
+
+        musicToggle.addEventListener('click', function() {
+            if (isPlaying) {
+                music.pause();
+                musicToggle.textContent = '🔇';
+            } else {
+                music.play().catch(error => {
+                    console.log('Ошибка:', error);
+                    alert('Музыка не найдена! Убедись что файл music.mp3 лежит в той же папке что и index.html');
+                });
+                musicToggle.textContent = '🔊';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // Включаем музыку при первом клике на странице
+        document.addEventListener('click', function() {
+            if (!isPlaying) {
+                music.play().then(() => {
+                    isPlaying = true;
+                    musicToggle.textContent = '🔊';
+                }).catch(error => {
+                    console.log('Нужно взаимодействие пользователя');
+                });
+            }
+        });
+
+        // Enhanced scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, 200);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section, .guide-card, .member-card, .donate-card, .gallery-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Enhanced copy to clipboard function
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Create custom notification
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(135deg, #00ff88, #0088ff);
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 10px;
+                    z-index: 10000;
+                    font-weight: bold;
+                    box-shadow: 0 10px 25px rgba(0, 255, 136, 0.3);
+                    transform: translateX(100%);
+                    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                `;
+                notification.textContent = 'Скопировано в буфер обмена! ✅';
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.transform = 'translateX(0)';
+                }, 100);
+                
+                setTimeout(() => {
+                    notification.style.transform = 'translateX(100%)';
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 500);
+                }, 3000);
+            });
+        }
+
+        // Enhanced image loading with error handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            galleryItems.forEach(item => {
+                const img = new Image();
+                const bgImage = item.style.backgroundImage.replace('url("', '').replace('")', '');
+                img.src = bgImage;
+                
+                img.onload = function() {
+                    item.style.backgroundImage = `url('${bgImage}')`;
+                };
+                
+                img.onerror = function() {
+                    item.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #ff6b6b; font-weight: bold; font-size: 1.1rem;">Ошибка загрузки</div>';
+                    item.style.display = 'flex';
+                    item.style.alignItems = 'center';
+                    item.style.justifyContent = 'center';
+                    item.style.color = '#ff6b6b';
+                    item.style.fontWeight = 'bold';
+                    item.style.background = '#333';
+                };
+            });
+        });
+
+        // Add parallax effect to header
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const header = document.querySelector('.header');
+            if (header) {
+                header.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
